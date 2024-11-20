@@ -1,4 +1,4 @@
-Here is your task (I'm having trouble making the picture legible due to the large number of wires...
+Here is your task (I'm having trouble making the picture legible due to the large number of wires...)
 You are creating a simulated and very simple home automation system. You will present both a web interface and a tkinter interface that need to cooperate.
 You are NOT required to make the web page update itself automatically. I know there is a way to do that, and if you do make it happen you'll get five extra points on the exam grade.
 Pin numbers are listed as follows: x (y) where x is the "Board" pin number, that is, simply counting the pins from left to right if you connect your breakout to the board the way we 
@@ -9,9 +9,12 @@ If you don't have one of those little cards, here is a link with the pinouts: ht
 You will have one servo to simulate locking and unlocking the door. That servo may be either on the servo board that we used, which will be connected to 3 (2) and 5 (3) as well as voltage 
 and ground, and power for the servos themselves, or the PWM will be on pin 11 (17). Only program one of these two into your code. I will have both on my test circuit so I will be able to 
 tell which you are using as long as it works correctly.
+
 You will have a button connected to use the built-in PULL-UP resistor connected to pin 7(4) to simulate detecting if the door is open or closed. You may, instead, simply use wires connected 
 to the pin and run it to ground or not, because if the switch is closed the door is closed.
+
 The Temperature and Humidity sensor (DHT10 / DHT11) will have its signal / data line connected to 37 (26) almost all the way to the end of the bottom row of pins.
+
 You will have four LEDs - RED, BLUE, GREEN, and WHITE, connected with their anodes at pins 15 (22), 19 (10), 21 (9), and 23 (11), respectively. You will note there is an unused pin between 
 the DHT's data line and the RED LED, and an unused pin between the RED LED and the Blue LED. The Green and White use the next pins after the Blue LED.
 RED = heat is turned on.
