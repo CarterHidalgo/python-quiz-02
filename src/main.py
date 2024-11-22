@@ -4,6 +4,8 @@ from circuit import Circuit
 from tkui import TKUI
 
 def main():
+    terminate = threading.Event()
+
     ui = TKUI()
 
     circuit_thread = threading.Thread(target=Circuit.run)

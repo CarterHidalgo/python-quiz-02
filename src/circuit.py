@@ -1,6 +1,18 @@
+# import RPi.GPIO as GPIO
 from data import Data
 
 class Circuit():
+    REDPIN = 15
+    BLUEPIN = 19
+    GREENPIN = 21
+    WHITEPIN = 23
+
+    # GPIO.setmode(GPIO.BOARD)
+    # GPIO.setup(REDPIN, GPIO.OUT)
+    # GPIO.setup(BLUEPIN, GPIO.OUT)
+    # GPIO.setup(GREENPIN, GPIO.OUT)
+    # GPIO.setup(WHITEPIN, GPIO.OUT)
+
     def run():
         Circuit._read_sensors()
         Circuit._update_with_data()
@@ -9,6 +21,8 @@ class Circuit():
         return
 
     def _update_with_data():
+
+
         return
 
         if Data.fan_cool:

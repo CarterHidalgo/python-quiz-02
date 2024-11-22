@@ -5,8 +5,6 @@ from data import Data
 
 class TKUI():
     def __init__(self):
-        self.terminate = threading.Event()
-
         self.root = Tk()
 
         self.temp_lbl_type = StringVar(value="F")
@@ -127,7 +125,9 @@ class TKUI():
 
     def on_close(self):
         self.root.destroy()
-        self.terminate.set()
 
     def run_ui(self):
-        self.root.mainloop()
+        try:
+            self.root.mainloop()
+        except KeyboardInterrupt:
+            self.on_close()
