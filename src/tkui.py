@@ -1,4 +1,3 @@
-import threading
 from tkinter import *
 from functools import partial
 from data import Data
@@ -14,7 +13,7 @@ class TKUI():
         self.in_lights = StringVar(value="False")
         self.out_lights = StringVar(value="False")
 
-        self.root.geometry("400x200")
+        self.root.geometry("500x200")
         self.root.title("Quiz 02 TK UI")
 
         self.rb_far = Radiobutton(self.root, text="Fahrenheit", variable=self.temp_lbl_type, value="F", command=partial(self.handle_temp_lbl_type, "F"))
@@ -111,7 +110,7 @@ class TKUI():
         self.update()
 
     def handle_lock(self):
-        if Data.door_is_closed():
+        if Data.get_door():
             Data.set_locked(not Data.get_locked())
             self.update()
 
@@ -125,9 +124,12 @@ class TKUI():
 
     def on_close(self):
         self.root.destroy()
+        self.terminate.set()
+        print("tkui terminated")
 
-    def run_ui(self):
+    def run_ui(self, terminate):
         try:
+            self.terminate = terminate
             self.root.mainloop()
         except KeyboardInterrupt:
             self.on_close()

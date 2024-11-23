@@ -6,6 +6,7 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 	HOST_NAME = ''
 	PORT_NUMBER = 8000
 	UI = None
+	TERMINATE = None
 
 	lines = [
 		'<!DOCTYPE html>'
@@ -114,11 +115,5 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 
 	def run(tkui):
 		WebUI.UI = tkui
-
-		try:
-			server = http.server.HTTPServer((WebUI.HOST_NAME, WebUI.PORT_NUMBER), WebUI)
-			server.serve_forever()
-		except KeyboardInterrupt:
-			print("shutting down web server")
-		finally:
-			server.socket.close()
+		server = http.server.HTTPServer((WebUI.HOST_NAME, WebUI.PORT_NUMBER), WebUI)
+		server.serve_forever()

@@ -10,16 +10,17 @@ class Data():
     _temp_lbl_type = "F"
     _temp_set_type = "F"
 
-    _fan_cool = False # ac is off
-    _fan_heat = False # heat is off
-    _door = True # false = open/broken true = closed/completed
-    _locked = True # locked/unlocked true/false
+    _fan_cool = False
+    _fan_heat = False 
+    _door = True 
+    _locked = True
     
-    _servoLocked = True # actual servo state (locked vs unlocked)
+    _servoLocked = True
     _out_lights = False
     _in_lights = False
-    _real_out = False
-    _real_in = False
+    once_out_lights = False
+    once_in_lights = False
+    once_door = True
 
     def _is_float(string):
         pattern = r"^[-+]?[0-9]*\.?[0-9]+$"
@@ -96,6 +97,9 @@ class Data():
     def set_locked(value):
         Data._locked = value
 
+    def set_door(value):
+        Data._door = value
+
     def set_in_lights(value):
         Data._in_lights = value
 
@@ -159,5 +163,5 @@ class Data():
         else:
             return "Open"
         
-    def door_is_closed():
+    def get_door():
         return Data._door
