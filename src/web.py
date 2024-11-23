@@ -25,7 +25,8 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 		'<label>Heat ({{heat}} {{temp_set_type}}): </label>'
 		'<input type="text" name="set_heat"><br><br>'
 		'<p>Door: {{door}}</p>'
-		'<button type="submit" name="lock" value="{{lock}}">{{lock}}</button><br><br>'
+		'<input type="radio" name="lock" value=True {{locked}}> Lock</label>'
+		'<input type="radio" name="lock" value=False {{unlocked}}> Unlock</label><br><br>'
 		'<label>Inside Lights</label>'
 		'<input type="radio" name="in_lights" value=True {{in_lights_on}}> On</label>'
 		'<input type="radio" name="in_lights" value=False {{in_lights_off}}> Off</label><br><br>'
@@ -43,9 +44,6 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 
 	def do_GET(self):
 		self.path = urlparse(self.path).path
-
-		print("do_GET")
-		print(f"path '{self.path}'")
 
 		if self.path == "/" or self.path == "/send":
 			html_content = "\n".join(WebUI.lines).replace(
@@ -71,8 +69,6 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 			).replace(
 				"{{door}}", Data.get_door_string()
 			).replace(
-				"{{lock}}", Data.get_locked_str()
-			).replace(
 				"{{in_lights_on}}", "checked" if Data.get_in_lights() else ""
 			).replace(
 				"{{in_lights_off}}", "checked" if not Data.get_in_lights() else ""
@@ -80,6 +76,10 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 				"{{out_lights_on}}", "checked" if Data.get_out_lights() else ""
 			).replace(
 				"{{out_lights_off}}", "checked" if not Data.get_out_lights() else ""
+			).replace(
+				"{{locked}}", "checked" if Data.get_locked() else ""
+			).replace(
+				"{{unlocked}}", "checked" if not Data.get_locked() else ""
 			)
 
 			self.send_response(200)
@@ -100,8 +100,9 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 				Data.set_cool(params.get("set_cool")[0])
 			if "set_heat" in params:
 				Data.set_heat(params.get("set_heat")[0])
-			if "lock" in params and Data.door_is_closed():
-				Data.set_locked(not Data.get_locked())
+			if "lock" in params and Data.get_door():
+				print("found: " + params.get("lock")[0])
+				Data.set_locked(params.get("lock")[0] == "True")
 			if "in_lights" in params:
 				Data.set_in_lights((params.get("in_lights")[0] == "True"))
 			if "out_lights" in params:

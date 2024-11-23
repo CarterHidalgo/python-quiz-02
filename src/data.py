@@ -15,7 +15,7 @@ class Data():
     _door = True 
     _locked = True
     
-    _servoLocked = True
+    _servo_locked = True
     _out_lights = False
     _in_lights = False
     once_out_lights = False
@@ -40,10 +40,10 @@ class Data():
         Data._fan_heat = False
 
         if Data._temp < Data._cool:
-            Data.fan_heat = True
+            Data._fan_heat = True
 
         if Data._temp > Data._heat:
-            Data.fan_cool = True
+            Data._fan_cool = True
 
     def set_temp_lbl_type(value):
         Data._temp_lbl_type = value
@@ -155,13 +155,16 @@ class Data():
         return Data._locked
     
     def get_locked_str():
-        return "Lock" if Data.get_locked() else "Unlock"
+        return "Unlock" if Data.get_locked() else "Lock"
+    
+    def get_locked_state_str():
+        return "Locked" if Data.get_locked() else "Unlocked"
 
     def get_door_string():
         if Data._door:
-            return "Closed"
+            return "Closed/" + Data.get_locked_state_str()
         else:
-            return "Open"
+            return "Open/" + Data.get_locked_state_str()
         
     def get_door():
         return Data._door

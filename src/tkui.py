@@ -122,6 +122,13 @@ class TKUI():
         Data.set_out_lights(value)
         self.update()
 
+    def update_temp(self):
+        self.lbl_temp.config(text=f"Temperature: {Data.get_temp_str()} {Data.get_temp_lbl_type()}")
+        self.lbl_hum.config(text=f"Humidity: {Data.get_hum_str()}")
+
+        if not self.terminate.is_set():
+            self.root.after(5000, self.update_temp)
+
     def on_close(self):
         self.root.destroy()
         self.terminate.set()
@@ -130,6 +137,7 @@ class TKUI():
     def run_ui(self, terminate):
         try:
             self.terminate = terminate
+            self.update_temp()
             self.root.mainloop()
         except KeyboardInterrupt:
             self.on_close()
