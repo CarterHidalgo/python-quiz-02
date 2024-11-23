@@ -1,3 +1,8 @@
+# Name: web.py
+# Author: Carter Hidalgo
+# 
+# Purpose: push html to web server and get information when webserver changes
+
 import http.server
 from urllib.parse import parse_qs, urlparse
 from data import Data
@@ -8,6 +13,7 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 	UI = None
 	TERMINATE = None
 
+	# I found it easier to remove the .html and simply have a complete html broken up by lines here
 	lines = [
 		'<!DOCTYPE html>'
 		'<html>'
@@ -46,6 +52,8 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 		self.path = urlparse(self.path).path
 
 		if self.path == "/" or self.path == "/send":
+
+			# replace format holders with real data from Data
 			html_content = "\n".join(WebUI.lines).replace(
 				"{{temp}}", Data.get_temp_str()
 			).replace(
@@ -96,6 +104,7 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 			Data.set_temp_lbl_type(params.get("lbl_type")[0])
 			Data.set_temp_set_type(params.get("set_type")[0])
 
+			# read data from params and update Data using setters
 			if "set_cool" in params:
 				Data.set_cool(params.get("set_cool")[0])
 			if "set_heat" in params:
@@ -115,6 +124,8 @@ class WebUI(http.server.BaseHTTPRequestHandler):
 			self.end_headers()
 
 	def run(tkui):
+		# the web server will run forever, even after tkui and circuit terminate
+		# to close, you will have to manually terminate the program
 		WebUI.UI = tkui
 		server = http.server.HTTPServer((WebUI.HOST_NAME, WebUI.PORT_NUMBER), WebUI)
 		server.serve_forever()

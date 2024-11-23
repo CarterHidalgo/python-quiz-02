@@ -1,9 +1,15 @@
+# Name: tkui.py
+# Author: Carter Hidalgo
+#
+# Purpose: Start and update TKUI with info from data class
+
 from tkinter import *
 from functools import partial
 from data import Data
 
 class TKUI():
     def __init__(self):
+        # setup tkui
         self.root = Tk()
 
         self.temp_lbl_type = StringVar(value="F")
@@ -76,6 +82,7 @@ class TKUI():
 
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
+    # updates all changable tkui elements with the latest data from Data
     def update(self):
         self.lbl_temp.config(text=f"Temperature: {Data.get_temp_str()} {Data.get_temp_lbl_type()}")
         self.lbl_hum.config(text=f"Humidity: {Data.get_hum_str()}")
@@ -93,6 +100,7 @@ class TKUI():
         self.temp_lbl_type.set(Data.get_temp_lbl_type())
         self.temp_set_type.set(Data.get_temp_set_type())
 
+    # handlers for events on the tkui
     def handle_temp_lbl_type(self, type):
         Data.set_temp_lbl_type(type)
         self.update()
@@ -129,6 +137,7 @@ class TKUI():
         if not self.terminate.is_set():
             self.root.after(5000, self.update_temp)
 
+    # called on termination
     def on_close(self):
         self.root.destroy()
         self.terminate.set()

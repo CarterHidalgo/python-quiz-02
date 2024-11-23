@@ -1,3 +1,8 @@
+# Name: circuit.py
+# Author: Carter Hidalgo
+#
+# Purpose: read from sensors and update all circuit elements
+
 import RPi.GPIO as GPIO
 from data import Data
 import dht11, time
@@ -32,6 +37,7 @@ class Circuit():
     SERVO = GPIO.PWM(SERVOPIN, 50)
     SERVO.start(0)
 
+    # set servo angle. the servo I tested has a 180 deg range
     def set_angle(angle):
         print("angle: " + str(angle))
         cycle = 2.5 + (angle / 18)
@@ -39,6 +45,7 @@ class Circuit():
         time.sleep(0.7)
         Circuit.SERVO.ChangeDutyCycle(0)
 
+    # read sensors and update while the tkui is open
     def run(ui, terminate):
         Circuit.UI = ui
 
@@ -53,6 +60,7 @@ class Circuit():
     def _read_sensors():
         Data.set_door(False if GPIO.input(Circuit.DOORPIN) == GPIO.HIGH else True)
 
+        # door open/closed
         if (Data.get_door() != Data.once_door) and not Data.get_locked():
             if GPIO.input(Circuit.DOORPIN) == GPIO.HIGH:
                 Data.set_door(False)
@@ -61,6 +69,7 @@ class Circuit():
             Data.once_door = Data.get_door()
             Circuit.UI.update()
         
+        # read temp and hum
         instance = dht11.DHT11(pin=Circuit.DHTPIN)
         result = instance.read()
         if result.is_valid():

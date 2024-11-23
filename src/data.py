@@ -1,11 +1,16 @@
+# Name: data.py
+# Author: Carter Hidalgo
+#
+# Purpose: store all data for reference by tkui and webui
+
 import re
 
 class Data():
     # all temps in celcius
-    _temp = 33.0
+    _temp = 23.0
     _cool = 20.0
     _heat = 35.0
-    _hum = 50.0
+    _hum = 15.0
 
     _temp_lbl_type = "F"
     _temp_set_type = "F"
@@ -157,6 +162,8 @@ class Data():
     def get_locked_str():
         return "Unlock" if Data.get_locked() else "Lock"
     
+    # reverse of get_locked_str() above for displaying the state rather than the current possible cation
+    # i.e. when the door is "Locked" (state) the option is "Unlock"
     def get_locked_state_str():
         return "Locked" if Data.get_locked() else "Unlocked"
 
